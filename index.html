@@ -86,7 +86,7 @@
         <option value="Familiar">Familiar</option>
     </select>
 
-    <button onclick="enviarMensaje()">Enviar mensaje por WhatsApp</button>
+    <button onclick="enviarMensaje()">Enviar Aviso</button>
 </main>
 
 <script>
@@ -146,7 +146,7 @@
             return;
         }
 
-        const msg = `Hola, soy ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
+        const msg = `Hola, soy el ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
         const encodedMsg = encodeURIComponent(msg);
         const numero = nums[0];
         window.location.href = `https://wa.me/${numero}?text=${encodedMsg}`;
