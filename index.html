@@ -2,17 +2,79 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto Edificio</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        h2 { color: #333; }
-        select, button { margin-top: 10px; display: block; padding: 5px; font-size: 1em; }
-        label { margin-top: 20px; font-weight: bold; display: block; }
+        :root {
+            --color-fondo: #f1f8ff;
+            --color-encabezado: #2874A6;
+            --color-texto-encabezado: white;
+            --color-boton: #3498DB;
+            --color-boton-texto: white;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", sans-serif;
+            background-color: var(--color-fondo);
+            color: #333;
+        }
+
+        header {
+            background-color: var(--color-encabezado);
+            color: var(--color-texto-encabezado);
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.6em;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 20px;
+            display: block;
+            font-size: 1.1em;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: var(--color-boton);
+            color: var(--color-boton-texto);
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980B9;
+        }
     </style>
 </head>
 <body>
-    <h2>Bienvenido a Edificio 5 entrada B - Barrio Samore</h2>
-    <label for="depto">Departamento</label>
+
+<header>
+    <h1>Edificio 5 entrada B - Barrio Samore</h1>
+</header>
+
+<main>
+    <label for="depto">Seleccioná tu departamento</label>
     <select id="depto"></select>
 
     <label for="tipo">¿Quién sos?</label>
@@ -25,69 +87,71 @@
     </select>
 
     <button onclick="enviarMensaje()">Enviar mensaje por WhatsApp</button>
+</main>
 
-    <script>
-        const pisos = ["PB", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-        const unidades = ["D", "E", "F"];
-        const contactos = {
-            "PB-Porteria": ["5491111111111"],
-            "PB-E": ["5491111111112"],
-            "PB-F": ["5491111111113"],
-            "1-D": ["5491111111114"],
-            "1-E": ["5491111111115"],
-            "1-F": ["5491111111116"],
-            "2-D": ["5491111111117"],
-            "2-E": ["5491111111118"],
-            "2-F": ["5491111111119"],
-            "3-D": ["5491111111120"],
-            "3-E": ["5491111111121"],
-            "3-F": ["5491111111122"],
-            "4-D": ["5491111111123"],
-            "4-E": ["5491111111124"],
-            "4-F": ["5491111111125"],
-            "5-D": ["5491111111126"],
-            "5-E": ["5491111111127"],
-            "5-F": ["5491111111128"],
-            "6-D": ["5491111111129"],
-            "6-E": ["5491111111130"],
-            "6-F": ["5491111111131"],
-            "7-D": ["5491111111132"],
-            "7-E": ["5491111111133"],
-            "7-F": ["5491111111134"],
-            "8-D": ["5491111111135"],
-            "8-E": ["5491111111136"],
-            "8-F": ["5491111111137"],
-            "9-D": ["5491111111138"],
-            "9-E": ["5491111111139"],
-            "9-F": ["5491123312815"]
-        };
+<script>
+    const pisos = ["PB", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    const unidades = ["D", "E", "F"];
+    const contactos = {
+        "PB-D": ["5491111111111"],
+        "PB-E": ["5491111111112"],
+        "PB-F": ["5491111111113"],
+        "1-D": ["5491111111114"],
+        "1-E": ["5491111111115"],
+        "1-F": ["5491111111116"],
+        "2-D": ["5491111111117"],
+        "2-E": ["5491111111118"],
+        "2-F": ["5491111111119"],
+        "3-D": ["5491111111120"],
+        "3-E": ["5491111111121"],
+        "3-F": ["5491111111122"],
+        "4-D": ["5491111111123"],
+        "4-E": ["5491111111124"],
+        "4-F": ["5491111111125"],
+        "5-D": ["5491111111126"],
+        "5-E": ["5491111111127"],
+        "5-F": ["5491111111128"],
+        "6-D": ["5491111111129"],
+        "6-E": ["5491111111130"],
+        "6-F": ["5491111111131"],
+        "7-D": ["5491111111132"],
+        "7-E": ["5491111111133"],
+        "7-F": ["5491111111134"],
+        "8-D": ["5491111111135"],
+        "8-E": ["5491111111136"],
+        "8-F": ["5491111111137"],
+        "9-D": ["5491111111138"],
+        "9-E": ["5491111111139"],
+        "9-F": ["5491111111140"]
+    };
 
-        const deptoSelect = document.getElementById("depto");
-        pisos.forEach(piso => {
-            unidades.forEach(unidad => {
-                const val = `${piso}-${unidad}`;
-                const option = document.createElement("option");
-                option.value = val;
-                option.textContent = `Dpto ${val}`;
-                deptoSelect.appendChild(option);
-            });
+    const deptoSelect = document.getElementById("depto");
+    pisos.forEach(piso => {
+        unidades.forEach(unidad => {
+            const val = `${piso}-${unidad}`;
+            const option = document.createElement("option");
+            option.value = val;
+            option.textContent = `Dpto ${val}`;
+            deptoSelect.appendChild(option);
         });
+    });
 
-        function enviarMensaje() {
-            const depto = document.getElementById("depto").value;
-            const tipo = document.getElementById("tipo").value;
-            const nums = contactos[depto];
+    function enviarMensaje() {
+        const depto = document.getElementById("depto").value;
+        const tipo = document.getElementById("tipo").value;
+        const nums = contactos[depto];
 
-            if (!nums) {
-                alert("Este departamento no tiene números asignados.");
-                return;
-            }
-
-            const msg = `Hola, soy ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
-            const encodedMsg = encodeURIComponent(msg);
-            const numero = nums[0];
-            window.location.href = `https://wa.me/${numero}?text=${encodedMsg}`;
+        if (!nums) {
+            alert("Este departamento no tiene números asignados.");
+            return;
         }
-    </script>
+
+        const msg = `Hola, soy ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
+        const encodedMsg = encodeURIComponent(msg);
+        const numero = nums[0];
+        window.location.href = `https://wa.me/${numero}?text=${encodedMsg}`;
+    }
+</script>
+
 </body>
 </html>
