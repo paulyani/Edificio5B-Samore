@@ -74,13 +74,12 @@ h<!DOCTYPE html>
 </header>
 
 <main>
-    <label for="depto">Seleccioná tu departamento</label>
+    <label for="depto">Seleccioná el departamento</label>
     <select id="depto"></select>
 
     <label for="tipo">¿Quién sos?</label>
     <select id="tipo">
         <option value="Cartero">Cartero</option>
-        <option value="Visita">Visita</option>
         <option value="Delivery">Delivery</option>
         <option value="Amigo">Amigo</option>
         <option value="Familiar">Familiar</option>
@@ -146,7 +145,7 @@ h<!DOCTYPE html>
             return;
         }
 
-        const msg = `Hola, soy el ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
+        const msg = `Hola, soy ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
         const encodedMsg = encodeURIComponent(msg);
         const numero = nums[0];
         window.location.href = `https://wa.me/${numero}?text=${encodedMsg}`;
