@@ -52,7 +52,7 @@
             font-size: 1.1em;
         }
 
-        select, button, input {
+        select, button {
             width: 100%;
             padding: 12px;
             font-size: 1em;
@@ -99,8 +99,6 @@
         <option value="Familiar">Familiar</option>
     </select>
 
-    <!-- Eliminado el input del PIN -->
-
     <button onclick="enviarMensaje()">Enviar Aviso</button>
     <button onclick="avisarPorteria()">Avisar a Portería</button>
 
@@ -117,8 +115,8 @@
         "1-D": ["5491111111114"],
         "1-E": ["5491111111115"],
         "1-F": ["5491111111116"],
-        "9-E": ["5491139485857,5491131617118,5491166535883"],
-        "9-F": ["5491123312815,5491122775434"]
+        "9-E": ["5491139485857", "5491131617118", "5491166535883"],
+        "9-F": ["5491123312815", "5491122775434"]
     };
 
     const deptoSelect = document.getElementById("depto");
@@ -145,8 +143,8 @@
         const depto = document.getElementById("depto").value;
         const tipo = document.getElementById("tipo").value;
 
-        const nums = contactos[depto];
-        if (!nums) {
+        const numeros = contactos[depto];
+        if (!numeros) {
             alert("Este departamento no tiene números asignados.");
             return;
         }
@@ -155,7 +153,6 @@
 
         const msg = `Hola, soy ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
         const encodedMsg = encodeURIComponent(msg);
-        const numeros = nums[0].split(",");
         const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
         numeros.forEach(numero => {
@@ -168,8 +165,7 @@
     function avisarPorteria() {
         const msg = "Hola, estoy en la entrada del edificio. Necesito comunicarme con la portería.";
         const encodedMsg = encodeURIComponent(msg);
-        const porteria = contactos["PB-Porteria"][0];
-        const numeros = porteria.split(",");
+        const numeros = contactos["PB-Porteria"];
         const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
         mostrarMensaje("Avisando a portería...");
