@@ -83,10 +83,20 @@
         }
 
         .confirmacion {
-            text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
             font-weight: bold;
-            color: green;
+        }
+
+        .confirmacion a {
+            display: block;
+            margin-top: 10px;
+            color: #2874A6;
+            font-weight: normal;
+            text-decoration: none;
+        }
+
+        .confirmacion a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -99,7 +109,9 @@
 
 <main>
     <label for="depto">Seleccioná el departamento</label>
-    <select id="depto"></select>
+    <select id="depto">
+        <option value="">-- Seleccioná un depto --</option>
+    </select>
 
     <label for="tipo">¿Quién sos?</label>
     <select id="tipo">
@@ -164,34 +176,38 @@
         });
     });
 
-    function mostrarMensaje(texto, color = "green") {
+    function mostrarMensajeHTML(html) {
         const msg = document.getElementById("mensaje");
-        msg.textContent = texto;
-        msg.style.color = color;
-        setTimeout(() => msg.textContent = "", 4000);
+        msg.innerHTML = html;
     }
 
     function enviarMensaje() {
         const depto = document.getElementById("depto").value;
         const tipo = document.getElementById("tipo").value;
 
-        const numeros = contactos[depto];
-        if (!numeros) {
-            alert("Este departamento no tiene números asignados.");
+        if (!depto) {
+            mostrarMensajeHTML("<span style='color:red'>Seleccioná un departamento.</span>");
             return;
         }
 
-        mostrarMensaje("Enviando avisos...");
+        const numeros = contactos[depto];
+        if (!numeros || numeros.length === 0) {
+            mostrarMensajeHTML("<span style='color:red'>Este departamento no tiene números asignados.</span>");
+            return;
+        }
 
         const msg = `Hola, soy ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
         const encodedMsg = encodeURIComponent(msg);
         const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
 
+        let linksHTML = `<strong>Hacé clic en los siguientes enlaces para enviar el aviso:</strong><br>`;
         numeros.forEach(numero => {
-            const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
             const url = `${baseUrl}?phone=${numero.trim()}&text=${encodedMsg}`;
-            window.open(url, "_blank");
+            linksHTML += `<a href="${url}" target="_blank">Enviar a ${numero}</a>`;
         });
+
+        mostrarMensajeHTML(linksHTML);
     }
 
     function avisarPorteria() {
@@ -199,14 +215,15 @@
         const encodedMsg = encodeURIComponent(msg);
         const numeros = contactos["PB-Porteria"];
         const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
 
-        mostrarMensaje("Avisando a portería...");
-
+        let linksHTML = `<strong>Hacé clic para avisar a portería:</strong><br>`;
         numeros.forEach(numero => {
-            const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
             const url = `${baseUrl}?phone=${numero.trim()}&text=${encodedMsg}`;
-            window.open(url, "_blank");
+            linksHTML += `<a href="${url}" target="_blank">Enviar a ${numero}</a>`;
         });
+
+        mostrarMensajeHTML(linksHTML);
     }
 </script>
 
