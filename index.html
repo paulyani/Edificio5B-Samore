@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto Edificio</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2874A6">
+    <link rel="apple-touch-icon" href="logo-edificio.png">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(reg => console.log("SW registrado", reg))
+                .catch(err => console.error("SW fallo", err));
+        }
+    </script>
     <style>
         :root {
             --color-fondo: #f1f8ff;

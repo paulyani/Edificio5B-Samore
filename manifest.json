@@ -1,0 +1,20 @@
+{
+    "name": "Edificio 5 - Barrio Samore",
+    "short_name": "Edificio 5",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#f1f8ff",
+    "theme_color": "#2874A6",
+    "icons": [
+        {
+            "src": "logo-edificio.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "logo-edificio.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
