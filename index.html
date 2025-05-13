@@ -1,4 +1,83 @@
-<!-- ... el <head> y los estilos son los mismos que antes ... -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto Edificio</title>
+  <meta name="theme-color" content="#2874A6" />
+  <link rel="apple-touch-icon" href="logo-edificio.png" />
+  <style>
+    :root {
+      --color-fondo: #f1f8ff;
+      --color-encabezado: #2874A6;
+      --color-texto-encabezado: white;
+      --color-boton: #3498DB;
+      --color-boton-texto: white;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: var(--color-fondo);
+      color: #333;
+    }
+    header {
+      background-color: var(--color-encabezado);
+      color: var(--color-texto-encabezado);
+      text-align: center;
+      padding: 20px 10px;
+    }
+    header img {
+      max-height: 80px;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.6em;
+    }
+    main {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 20px;
+      display: block;
+      font-size: 1.1em;
+    }
+    select, button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: var(--color-boton);
+      color: var(--color-boton-texto);
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980B9;
+    }
+    .confirmacion {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="logo-edificio.png" alt="Logo Edificio" />
+  <h1>Edificio 5 entrada B - Barrio Samore</h1>
+</header>
 
 <main>
   <label for="depto">Seleccioná el departamento</label>
@@ -14,7 +93,7 @@
     <option value="Familiar">Familiar</option>
   </select>
 
-  <div id="persona-container">
+  <div id="persona-container" style="display: none;">
     <label for="persona">¿A quién querés avisar?</label>
     <select id="persona"></select>
   </div>
@@ -28,35 +107,43 @@
 <script>
   const pisos = ["PB", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const unidades = ["D", "E", "F"];
+
   const contactos = {
-    "PB-Porteria": ["5491111111111"],
-    "PB-E": ["5491111111112"],
-    "PB-F": ["5491111111113"],
-    "1-D": ["5491111111114"],
-    "1-E": ["5491111111115"],
-    "1-F": ["5491111111116"],
-    "9-E": ["5491139485857", "5491131617118", "5491166535883"],
-    "9-F": ["5491123312815", "5491122775434"]
+    "PB-Porteria": [{ nombre: "Portero", numero: "5491111111111" }],
+    "PB-E": [{ nombre: "Encargado PB-E", numero: "5491111111112" }],
+    "PB-F": [{ nombre: "Encargado PB-F", numero: "5491111111113" }],
+    "1-D": [{ nombre: "Luis", numero: "5491111111114" }],
+    "1-E": [{ nombre: "Marcela", numero: "5491111111115" }],
+    "1-F": [{ nombre: "Carlos", numero: "5491111111116" }],
+    "9-E": [
+      { nombre: "Persona 1", numero: "5491139485857" },
+      { nombre: "Persona 2", numero: "5491131617118" },
+      { nombre: "Persona 3", numero: "5491166535883" }
+    ],
+    "9-F": [
+      { nombre: "Persona 1 ", numero: "5491123312815" },
+      { nombre: "Persona 2 ", numero: "5491122775434" }
+    ]
   };
 
   const deptoSelect = document.getElementById("depto");
-  const personaContainer = document.getElementById("persona-container");
   const personaSelect = document.getElementById("persona");
+  const personaContainer = document.getElementById("persona-container");
 
-  // Cargar deptos al dropdown
+  // Cargar opciones de deptos
   pisos.forEach(piso => {
     unidades.forEach(unidad => {
-      const val = `${piso}-${unidad}`;
-      if (contactos[val]) {
-        const option = document.createElement("option");
-        option.value = val;
-        option.textContent = `Dpto ${val}`;
-        deptoSelect.appendChild(option);
+      const key = `${piso}-${unidad}`;
+      if (contactos[key]) {
+        const opt = document.createElement("option");
+        opt.value = key;
+        opt.textContent = `Dpto ${key}`;
+        deptoSelect.appendChild(opt);
       }
     });
   });
 
-  // Recordar el último departamento seleccionado
+  // Restaurar depto anterior
   if (localStorage.getItem("ultimoDepto")) {
     deptoSelect.value = localStorage.getItem("ultimoDepto");
     actualizarPersonas();
@@ -66,16 +153,15 @@
     const depto = deptoSelect.value;
     localStorage.setItem("ultimoDepto", depto);
 
-    const numeros = contactos[depto] || [];
+    const personas = contactos[depto] || [];
     personaSelect.innerHTML = "";
 
-    if (numeros.length > 1) {
+    if (personas.length > 1) {
       personaContainer.style.display = "block";
-      numeros.forEach((nro, index) => {
-        const ultimos = nro.slice(-4);
+      personas.forEach((p, i) => {
         const opt = document.createElement("option");
-        opt.value = nro;
-        opt.textContent = `Persona ${index + 1} (••••${ultimos})`;
+        opt.value = p.numero;
+        opt.textContent = p.nombre;
         personaSelect.appendChild(opt);
       });
     } else {
@@ -83,50 +169,48 @@
     }
   }
 
-  function mostrarMensajeHTML(html) {
-    const msg = document.getElementById("mensaje");
-    msg.innerHTML = html;
+  function mostrarMensaje(msg, color = "green") {
+    const mensajeDiv = document.getElementById("mensaje");
+    mensajeDiv.textContent = msg;
+    mensajeDiv.style.color = color;
+    setTimeout(() => (mensajeDiv.textContent = ""), 4000);
   }
 
   function enviarMensaje() {
     const depto = deptoSelect.value;
     const tipo = document.getElementById("tipo").value;
-
-    if (!depto) {
-      mostrarMensajeHTML("<span style='color:red'>Seleccioná un departamento.</span>");
+    if (!depto || !contactos[depto]) {
+      mostrarMensaje("Seleccioná un departamento válido", "red");
       return;
     }
 
-    const numeros = contactos[depto];
-    if (!numeros || numeros.length === 0) {
-      mostrarMensajeHTML("<span style='color:red'>Este departamento no tiene números asignados.</span>");
-      return;
-    }
+    const personas = contactos[depto];
+    const contacto = personas.length > 1
+      ? personaSelect.value
+      : personas[0].numero;
 
-    const msg = `Hola, soy ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
-    const encodedMsg = encodeURIComponent(msg);
+    const texto = `Hola, soy ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
+    const encodedMsg = encodeURIComponent(texto);
     const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
+    const url = `${baseUrl}?phone=${contacto}&text=${encodedMsg}`;
 
-    let numeroFinal = numeros[0]; // por defecto
-    if (numeros.length > 1) {
-      numeroFinal = personaSelect.value;
-    }
-
-    const url = `${baseUrl}?phone=${numeroFinal.trim()}&text=${encodedMsg}`;
     window.open(url, "_blank");
-    mostrarMensajeHTML("Enlace abierto para enviar aviso.");
+    mostrarMensaje("Mensaje preparado para enviar.");
   }
 
   function avisarPorteria() {
-    const msg = "Hola, estoy en la entrada del edificio. Necesito comunicarme con la portería.";
-    const encodedMsg = encodeURIComponent(msg);
-    const numeros = contactos["PB-Porteria"];
+    const persona = contactos["PB-Porteria"][0];
+    const texto = "Hola, estoy en la entrada del edificio. Necesito comunicarme con la portería.";
+    const encodedMsg = encodeURIComponent(texto);
     const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
+    const url = `${baseUrl}?phone=${persona.numero}&text=${encodedMsg}`;
 
-    const url = `${baseUrl}?phone=${numeros[0]}&text=${encodedMsg}`;
     window.open(url, "_blank");
-    mostrarMensajeHTML("Aviso enviado a portería.");
+    mostrarMensaje("Aviso enviado a portería.");
   }
 </script>
+
+</body>
+</html>
