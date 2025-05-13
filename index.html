@@ -28,6 +28,12 @@
             padding: 20px 10px;
         }
 
+        header img {
+            max-height: 80px;
+            display: block;
+            margin: 0 auto 10px;
+        }
+
         h1 {
             margin: 0;
             font-size: 1.6em;
@@ -46,7 +52,7 @@
             font-size: 1.1em;
         }
 
-        select, button {
+        select, button, input {
             width: 100%;
             padding: 12px;
             font-size: 1em;
@@ -65,11 +71,19 @@
         button:hover {
             background-color: #2980B9;
         }
+
+        .confirmacion {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: green;
+        }
     </style>
 </head>
 <body>
 
 <header>
+    <img src="logo-edificio.png" alt="Logo Edificio">
     <h1>Edificio 5 entrada B - Barrio Samore</h1>
 </header>
 
@@ -85,10 +99,18 @@
         <option value="Familiar">Familiar</option>
     </select>
 
+    <label for="pin">Ingresá el PIN de seguridad</label>
+    <input type="password" id="pin" placeholder="PIN requerido">
+
     <button onclick="enviarMensaje()">Enviar Aviso</button>
+    <button onclick="avisarPorteria()">Avisar a Portería</button>
+
+    <div id="mensaje" class="confirmacion"></div>
 </main>
 
 <script>
+    const PIN_CORRECTO = "1234"; // podés cambiarlo por seguridad
+
     const pisos = ["PB", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     const unidades = ["D", "E", "F"];
     const contactos = {
@@ -98,28 +120,6 @@
         "1-D": ["5491111111114"],
         "1-E": ["5491111111115"],
         "1-F": ["5491111111116"],
-        "2-D": ["5491111111117"],
-        "2-E": ["5491111111118"],
-        "2-F": ["5491111111119"],
-        "3-D": ["5491111111120"],
-        "3-E": ["5491111111121"],
-        "3-F": ["5491111111122"],
-        "4-D": ["5491111111123"],
-        "4-E": ["5491111111124"],
-        "4-F": ["5491111111125"],
-        "5-D": ["5491111111126"],
-        "5-E": ["5491111111127"],
-        "5-F": ["5491111111128"],
-        "6-D": ["5491111111129"],
-        "6-E": ["5491111111130"],
-        "6-F": ["5491111111131"],
-        "7-D": ["5491111111132"],
-        "7-E": ["5491111111133"],
-        "7-F": ["5491111111134"],
-        "8-D": ["5491111111135"],
-        "8-E": ["5491111111136"],
-        "8-F": ["5491111111137"],
-        "9-D": ["5491111111138"],
         "9-E": ["5491139485857,5491131617118,5491166535883"],
         "9-F": ["5491123312815,5491122775434"]
     };
@@ -128,28 +128,67 @@
     pisos.forEach(piso => {
         unidades.forEach(unidad => {
             const val = `${piso}-${unidad}`;
-            const option = document.createElement("option");
-            option.value = val;
-            option.textContent = `Dpto ${val}`;
-            deptoSelect.appendChild(option);
+            if (contactos[val]) {
+                const option = document.createElement("option");
+                option.value = val;
+                option.textContent = `Dpto ${val}`;
+                deptoSelect.appendChild(option);
+            }
         });
     });
+
+    function mostrarMensaje(texto, color = "green") {
+        const msg = document.getElementById("mensaje");
+        msg.textContent = texto;
+        msg.style.color = color;
+        setTimeout(() => msg.textContent = "", 4000);
+    }
 
     function enviarMensaje() {
         const depto = document.getElementById("depto").value;
         const tipo = document.getElementById("tipo").value;
-        const nums = contactos[depto];
+        const pin = document.getElementById("pin").value;
 
+        if (pin !== PIN_CORRECTO) {
+            mostrarMensaje("PIN incorrecto", "red");
+            return;
+        }
+
+        const nums = contactos[depto];
         if (!nums) {
             alert("Este departamento no tiene números asignados.");
             return;
         }
 
+        mostrarMensaje("Enviando avisos...");
+
         const msg = `Hola, soy ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
         const encodedMsg = encodeURIComponent(msg);
-
         const numeros = nums[0].split(",");
         const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        numeros.forEach(numero => {
+            const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
+            const url = `${baseUrl}?phone=${numero.trim()}&text=${encodedMsg}`;
+            window.open(url, "_blank");
+        });
+    }
+
+    function avisarPorteria() {
+        const pin = document.getElementById("pin").value;
+
+        if (pin !== PIN_CORRECTO) {
+            mostrarMensaje("PIN incorrecto", "red");
+            return;
+        }
+
+        const msg = "Hola, estoy en la entrada del edificio. Necesito comunicarme con la portería.";
+        const encodedMsg = encodeURIComponent(msg);
+        const porteria = contactos["PB-Porteria"][0];
+        const numeros = porteria.split(",");
+        const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        mostrarMensaje("Avisando a portería...");
 
         numeros.forEach(numero => {
             const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
