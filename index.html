@@ -99,8 +99,7 @@
         <option value="Familiar">Familiar</option>
     </select>
 
-    <label for="pin">Ingresá el PIN de seguridad</label>
-    <input type="password" id="pin" placeholder="PIN requerido">
+    <!-- Eliminado el input del PIN -->
 
     <button onclick="enviarMensaje()">Enviar Aviso</button>
     <button onclick="avisarPorteria()">Avisar a Portería</button>
@@ -109,8 +108,6 @@
 </main>
 
 <script>
-    const PIN_CORRECTO = "1234"; // podés cambiarlo por seguridad
-
     const pisos = ["PB", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     const unidades = ["D", "E", "F"];
     const contactos = {
@@ -147,12 +144,6 @@
     function enviarMensaje() {
         const depto = document.getElementById("depto").value;
         const tipo = document.getElementById("tipo").value;
-        const pin = document.getElementById("pin").value;
-
-        if (pin !== PIN_CORRECTO) {
-            mostrarMensaje("PIN incorrecto", "red");
-            return;
-        }
 
         const nums = contactos[depto];
         if (!nums) {
@@ -175,13 +166,6 @@
     }
 
     function avisarPorteria() {
-        const pin = document.getElementById("pin").value;
-
-        if (pin !== PIN_CORRECTO) {
-            mostrarMensaje("PIN incorrecto", "red");
-            return;
-        }
-
         const msg = "Hola, estoy en la entrada del edificio. Necesito comunicarme con la portería.";
         const encodedMsg = encodeURIComponent(msg);
         const porteria = contactos["PB-Porteria"][0];
