@@ -1,189 +1,56 @@
-!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contacto Edificio</title>
-  <meta name="theme-color" content="#2874A6" />
-  <link rel="apple-touch-icon" href="logo-edificio.png" />
-  <style>
-    :root {
-      --color-fondo: #f1f8ff;
-      --color-encabezado: #2874A6;
-      --color-texto-encabezado: white;
-      --color-boton: #3498DB;
-      --color-boton-texto: white;
-    }
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Segoe UI", sans-serif;
-      background-color: var(--color-fondo);
-      color: #333;
-    }
-    header {
-      background-color: var(--color-encabezado);
-      color: var(--color-texto-encabezado);
-      text-align: center;
-      padding: 20px 10px;
-    }
-    header img {
-      max-height: 80px;
-      display: block;
-      margin: 0 auto 10px;
-    }
-    h1 {
-      margin: 0;
-      font-size: 1.6em;
-    }
-    main {
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-    label {
-      font-weight: bold;
-      margin-top: 20px;
-      display: block;
-      font-size: 1.1em;
-    }
-    select, button {
-      width: 100%;
-      padding: 12px;
-      font-size: 1em;
-      margin-top: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: var(--color-boton);
-      color: var(--color-boton-texto);
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #2980B9;
-    }
-    .confirmacion {
-      text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
-      color: green;
-    }
-  </style>
-</head>
-<body>
+<!-- Ejemplo básico del HTML -->
+<select id="depto" onchange="actualizarPersonas()">
+  <option value="">Seleccioná un departamento</option>
+  <option value="101">101</option>
+  <option value="102">102</option>
+  <option value="PB-Porteria">PB-Porteria</option>
+  <!-- Agrega los departamentos que tengas -->
+</select>
 
-<header>
-  <img src="logo-edificio.png" alt="Logo Edificio" />
-  <h1>Edificio 5 entrada B - Barrio Samore</h1>
-</header>
+<div id="persona-container" style="display:none;">
+  <select id="persona"></select>
+</div>
 
-<main>
-  <label for="depto">Seleccioná el departamento</label>
-  <select id="depto" onchange="actualizarPersonas()">
-    <option value="">-- Seleccioná un depto --</option>
-    <option value="PB-Porteria">Portería</option>
-    <option value="PB-E">PB E (Encargado PB-E)</option>
-    <option value="PB-F">PB F (Encargado PB-F)</option>
-    <option value="1-D">Dpto 1 D (Luis)</option>
-    <option value="1-E">Dpto 1 E (Marcela)</option>
-    <option value="1-F">Dpto 1 F (Carlos)</option>
-    <option value="2-D">Dpto 2 D (Luis)</option>
-    <option value="2-E">Dpto 2 E (Marcela)</option>
-    <option value="2-F">Dpto 2 F (majo)</option>
-    <option value="3-D">Dpto 3 D (Luis)</option>
-    <option value="3-E">Dpto 3 E (Marcela)</option>
-    <option value="3-F">Dpto 3 F (Majo)</option>
-    <option value="4-D">Dpto 4 D (Luis)</option>
-    <option value="4-E">Dpto 4 E (Marcela)</option>
-    <option value="4-F">Dpto 4 F (Carlos)</option>
-    <option value="5-D">Dpto 5 D (Luis)</option>
-    <option value="5-E">Dpto 5 E (Persona 1 / Persona 2)</option>
-    <option value="5-F">Dpto 5 F (Yamila/Carlos)</option>
-    <option value="6-D">Dpto 6 D (Luis)</option>
-    <option value="6-E">Dpto 6 E (Marcela)</option>
-    <option value="6-F">Dpto 6 F (Carlos)</option>
-    <option value="7-D">Dpto 7 D (Luis)</option>
-    <option value="7-E">Dpto 7 E (Marcela)</option>
-    <option value="7-F">Dpto 7 F (Carlos)</option>
-    <option value="8-D">Dpto 8 D (Luis)</option>
-    <option value="8-E">Dpto 8 E (Marcela)</option>
-    <option value="8-F">Dpto 8 F (Carlos)</option>
-    <option value="9-D">Dpto 9 D (Carlos)</option>
-    <option value="9-E">Dpto 9 E (Persona 1 / Persona 2 / Persona 3)</option>
-    <option value="9-F">Dpto 9 F (Persona 1 / Persona 2)</option>
-  </select>
+<select id="tipo">
+  <option value="Visitante">Visitante</option>
+  <option value="Proveedor">Proveedor</option>
+  <option value="Residente">Residente</option>
+</select>
 
-  <label for="tipo">¿Quién sos?</label>
-  <select id="tipo">
-    <option value="Cartero">Cartero</option>
-    <option value="Delivery">Delivery</option>
-    <option value="Amigo">Amigo</option>
-    <option value="Familiar">Familiar</option>
-  </select>
+<button onclick="enviarMensaje()">Enviar Mensaje</button>
+<button onclick="avisarPorteria()">Avisar Portería</button>
 
-  <div id="persona-container" style="display: none;">
-    <label for="persona">¿A quién querés avisar?</label>
-    <select id="persona"></select>
-  </div>
-
-  <button onclick="enviarMensaje()">Enviar Aviso</button>
-  <button onclick="avisarPorteria()">Avisar a Portería</button>
-
-  <div id="mensaje" class="confirmacion"></div>
-</main>
+<div id="mensaje" style="margin-top:10px; font-weight:bold;"></div>
 
 <script>
+  // Ejemplo de contactos, adaptalo a tus datos reales
   const contactos = {
-    "PB-Porteria": [{ nombre: "Portero", numero: "5491111111111" }],
-    "PB-E": [{ nombre: "Encargado PB-E", numero: "5491111111112" }],
-    "PB-F": [{ nombre: "Encargado PB-F", numero: "5491111111113" }],
-    "1-D": [{ nombre: "Luis", numero: "5491111111114" }],
-    "1-E": [{ nombre: "Marcela", numero: "5491111111115" }],
-    "1-F": [{ nombre: "Carlos", numero: "5491111111116" }],
-    "2-D": [{ nombre: "Luis", numero: "5491111111114" }],
-    "2-E": [{ nombre: "Marcela", numero: "5491111111115" }],
-    "2-F": [{ nombre: "majo", numero: "5491111111116" }],
-    "3-D": [{ nombre: "Luis", numero: "5491111111114" }],
-    "3-E": [{ nombre: "Marcela", numero: "5491161722511" }],
-    "3-F": [{ nombre: "Majo", numero: "5491132606779" }],
-    "4-D": [{ nombre: "Luis", numero: "5491111111114" }],
-    "4-E": [{ nombre: "Marcela", numero: "5491111111115" }],
-    "4-F": [{ nombre: "Carlos", numero: "5491111111116" }],
-    "5-D": [{ nombre: "Luis", numero: "5491111111114" }],
-    "5-E": [{ nombre: "Persona 1 ", numero: "5491138262836" }, { nombre: "Persona 2 ", numero: "5491156442637" }],
-    "5-F": [{ nombre: "Yamila/Carlos", numero: "5491170087927" }],
-    "6-D": [{ nombre: "Luis", numero: "5491111111114" }],
-    "6-E": [{ nombre: "Marcela", numero: "5491111111115" }],
-    "6-F": [{ nombre: "Carlos", numero: "5491111111116" }],
-    "7-D": [{ nombre: "Luis", numero: "5491111111114" }],
-    "7-E": [{ nombre: "Marcela", numero: "5491111111115" }],
-    "7-F": [{ nombre: "Carlos", numero: "5491111111116" }],
-    "8-D": [{ nombre: "Luis", numero: "5491111111114" }],
-    "8-E": [{ nombre: "Marcela", numero: "5491111111115" }],
-    "8-F": [{ nombre: "Carlos", numero: "5491111111116" }],
-    "9-D": [{ nombre: "Carlos", numero: "5491111111116" }],
-    "9-E": [{ nombre: "Persona 1", numero: "5491139485857" }, { nombre: "Persona 2", numero: "5491131617118" }, { nombre: "Persona 3", numero: "5491166535883" }],
-    "9-F": [{ nombre: "Persona 1 ", numero: "5491123312815" }, { nombre: "Persona 2 ", numero: "5491122775434" }]
+    "101": [
+      { nombre: "Juan Pérez", numero: "5491123456789" }
+    ],
+    "102": [
+      { nombre: "Ana Gómez", numero: "5491198765432" },
+      { nombre: "Luis Martínez", numero: "5491165432109" }
+    ],
+    "PB-Porteria": [
+      { nombre: "Portería", numero: "5491176543210" }
+    ]
   };
 
+  // Variables para elementos del DOM
+  const deptoSelect = document.getElementById("depto");
   const personaSelect = document.getElementById("persona");
   const personaContainer = document.getElementById("persona-container");
 
-  if (localStorage.getItem("ultimoDepto")) {
-    document.getElementById("depto").value = localStorage.getItem("ultimoDepto");
-    actualizarPersonas();
-  }
-
+  // Funciones
   function actualizarPersonas() {
-    const depto = document.getElementById("depto").value;
+    const depto = deptoSelect.value;
     localStorage.setItem("ultimoDepto", depto);
     const personas = contactos[depto] || [];
     personaSelect.innerHTML = "";
     if (personas.length > 1) {
       personaContainer.style.display = "block";
-      personas.forEach((p) => {
+      personas.forEach(p => {
         const opt = document.createElement("option");
         opt.value = p.numero;
         opt.textContent = p.nombre;
@@ -202,7 +69,7 @@
   }
 
   function enviarMensaje() {
-    const depto = document.getElementById("depto").value;
+    const depto = deptoSelect.value;
     const tipo = document.getElementById("tipo").value;
     if (!depto || !contactos[depto]) {
       mostrarMensaje("Seleccioná un departamento válido", "red");
@@ -229,74 +96,13 @@
     window.open(url, "_blank");
     mostrarMensaje("Aviso enviado a portería.");
   }
-</script>
 
-</body>
-</html>
-
-
-  function actualizarPersonas() {
-    const depto = deptoSelect.value;
-    localStorage.setItem("ultimoDepto", depto);
-
-    const personas = contactos[depto] || [];
-    personaSelect.innerHTML = "";
-
-    if (personas.length > 1) {
-      personaContainer.style.display = "block";
-      personas.forEach((p, i) => {
-        const opt = document.createElement("option");
-        opt.value = p.numero;
-        opt.textContent = p.nombre;
-        personaSelect.appendChild(opt);
-      });
-    } else {
-      personaContainer.style.display = "none";
+  // Si querés, podés restaurar la última selección al cargar la página:
+  window.onload = () => {
+    const ultimoDepto = localStorage.getItem("ultimoDepto");
+    if (ultimoDepto && contactos[ultimoDepto]) {
+      deptoSelect.value = ultimoDepto;
+      actualizarPersonas();
     }
-  }
-
-  function mostrarMensaje(msg, color = "green") {
-    const mensajeDiv = document.getElementById("mensaje");
-    mensajeDiv.textContent = msg;
-    mensajeDiv.style.color = color;
-    setTimeout(() => (mensajeDiv.textContent = ""), 4000);
-  }
-
-  function enviarMensaje() {
-    const depto = deptoSelect.value;
-    const tipo = document.getElementById("tipo").value;
-    if (!depto || !contactos[depto]) {
-      mostrarMensaje("Seleccioná un departamento válido", "red");
-      return;
-    }
-
-    const personas = contactos[depto];
-    const contacto = personas.length > 1
-      ? personaSelect.value
-      : personas[0].numero;
-
-    const texto = `Hola, soy ${tipo}. Estoy en la entrada del edificio y quiero comunicarme con el Dpto ${depto}.`;
-    const encodedMsg = encodeURIComponent(texto);
-    const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
-    const url = `${baseUrl}?phone=${contacto}&text=${encodedMsg}`;
-
-    window.open(url, "_blank");
-    mostrarMensaje("Mensaje preparado para enviar.");
-  }
-
-  function avisarPorteria() {
-    const persona = contactos["PB-Porteria"][0];
-    const texto = "Hola, estoy en la entrada del edificio. Necesito comunicarme con la portería.";
-    const encodedMsg = encodeURIComponent(texto);
-    const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
-    const url = `${baseUrl}?phone=${persona.numero}&text=${encodedMsg}`;
-
-    window.open(url, "_blank");
-    mostrarMensaje("Aviso enviado a portería.");
-  }
+  };
 </script>
-
-</body>
-</html>
