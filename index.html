@@ -3,86 +3,166 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Contacto por WhatsApp - Edificio</title>
+<title>Contacto Edificio por WhatsApp</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 30px;
-    max-width: 400px;
+  /* Reset básico */
+  * {
+    box-sizing: border-box;
   }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #d4f1f4, #0d324d);
+    color: #0d324d;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  main {
+    background: #ffffffdd;
+    max-width: 420px;
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgb(13 50 77 / 0.3);
+    padding: 30px 30px 40px;
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 18px;
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 1.3px;
+    color: #065a82;
+  }
+
   label {
     display: block;
-    margin-top: 15px;
-    font-weight: bold;
+    text-align: left;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 6px;
+    color: #09527a;
+    user-select: none;
   }
+
   select, input[type="text"] {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    box-sizing: border-box;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 2px solid #a6c8d9;
     font-size: 1rem;
+    transition: border-color 0.3s ease;
   }
+  select:hover, input[type="text"]:hover {
+    border-color: #488fc2;
+  }
+  select:focus, input[type="text"]:focus {
+    border-color: #09527a;
+    outline: none;
+    box-shadow: 0 0 6px #2b6ca3aa;
+  }
+
+  #personaContainer {
+    margin-top: 10px;
+  }
+
   button {
-    margin-top: 20px;
-    padding: 10px 15px;
-    font-size: 1rem;
-    cursor: pointer;
-    background-color: #28a745;
-    border: none;
+    margin-top: 26px;
+    width: 100%;
+    background: #09527a;
     color: white;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    font-weight: 700;
+    font-size: 1.15rem;
+    padding: 14px 0;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgb(9 82 122 / 0.4);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
   }
   button:hover {
-    background-color: #218838;
+    background-color: #0c75c0;
+    box-shadow: 0 8px 20px rgb(12 117 192 / 0.6);
   }
-  #personaContainer {
-    margin-top: 15px;
+
+  #btnPorteria {
+    margin-top: 12px;
+    background: #28a745;
+    box-shadow: 0 5px 15px rgb(40 167 69 / 0.4);
   }
+  #btnPorteria:hover {
+    background-color: #3ec16f;
+    box-shadow: 0 8px 20px rgb(62 193 111 / 0.7);
+  }
+
   #mensaje {
-    margin-top: 20px;
-    font-weight: bold;
+    margin-top: 25px;
+    font-weight: 600;
+    min-height: 26px;
+    font-size: 1rem;
+    user-select: none;
+    color: #096c13;
+    transition: color 0.3s ease;
   }
-  .btn-secondary {
-    background-color: #007bff;
-    margin-left: 10px;
+
+  #mensaje.error {
+    color: #b92c2c;
   }
-  .btn-secondary:hover {
-    background-color: #0069d9;
+
+  /* Emoji pequeño al lado de mensaje */
+  #mensaje::before {
+    content: "";
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  #mensaje.success::before {
+    content: "✅";
+  }
+  #mensaje.error::before {
+    content: "❌";
   }
 </style>
 </head>
 <body>
 
-<h2>Enviar mensaje a contacto</h2>
+<main>
+  <h1>Enviar mensaje a contacto</h1>
 
-<label for="deptoSelect">Departamento:</label>
-<select id="deptoSelect">
-  <option value="">-- Seleccioná un departamento --</option>
-  <option value="PB-Porteria">PB - Portería</option>
-  <option value="1F">1F</option>
-  <option value="2F">2F</option>
-  <option value="3F">3F</option>
-  <option value="4F">4F</option>
-  <option value="5F">5F</option>
-  <option value="6F">6F</option>
-  <option value="7F">7F</option>
-  <option value="8F">8F</option>
-  <option value="9F">9F</option>
-</select>
+  <label for="deptoSelect">Departamento:</label>
+  <select id="deptoSelect" aria-label="Seleccionar departamento">
+    <option value="">-- Seleccioná un departamento --</option>
+    <option value="PB-Porteria">PB - Portería</option>
+    <option value="1F">1F</option>
+    <option value="2F">2F</option>
+    <option value="3F">3F</option>
+    <option value="4F">4F</option>
+    <option value="5F">5F</option>
+    <option value="6F">6F</option>
+    <option value="7F">7F</option>
+    <option value="8F">8F</option>
+    <option value="9F">9F</option>
+  </select>
 
-<div id="personaContainer" style="display:none;">
-  <label for="personaSelect">Persona:</label>
-  <select id="personaSelect"></select>
-</div>
+  <div id="personaContainer" style="display:none;">
+    <label for="personaSelect">Persona:</label>
+    <select id="personaSelect" aria-label="Seleccionar persona"></select>
+  </div>
 
-<label for="tipo">Tipo (Ej: Repartidor, Visitante):</label>
-<input type="text" id="tipo" placeholder="Tu tipo aquí" />
+  <label for="tipo">Tipo (Ej: Repartidor, Visitante):</label>
+  <input type="text" id="tipo" placeholder="Tu tipo aquí" aria-label="Tipo de persona" />
 
-<button onclick="enviarMensaje()">Enviar mensaje WhatsApp</button>
-<button class="btn-secondary" onclick="avisarPorteria()">Avisar a Portería</button>
+  <button onclick="enviarMensaje()">Enviar mensaje WhatsApp</button>
+  <button id="btnPorteria" onclick="avisarPorteria()">Avisar a Portería</button>
 
-<div id="mensaje"></div>
+  <div id="mensaje"></div>
+</main>
 
 <script>
   const contactos = {
@@ -105,6 +185,7 @@
   const deptoSelect = document.getElementById("deptoSelect");
   const personaSelect = document.getElementById("personaSelect");
   const personaContainer = document.getElementById("personaContainer");
+  const mensajeDiv = document.getElementById("mensaje");
 
   window.onload = () => {
     const ultimoDepto = localStorage.getItem("ultimoDepto");
@@ -135,10 +216,18 @@
   }
 
   function mostrarMensaje(msg, color = "green") {
-    const mensajeDiv = document.getElementById("mensaje");
     mensajeDiv.textContent = msg;
-    mensajeDiv.style.color = color;
-    setTimeout(() => (mensajeDiv.textContent = ""), 4000);
+    if (color === "green") {
+      mensajeDiv.classList.remove("error");
+      mensajeDiv.classList.add("success");
+    } else {
+      mensajeDiv.classList.remove("success");
+      mensajeDiv.classList.add("error");
+    }
+    setTimeout(() => {
+      mensajeDiv.textContent = "";
+      mensajeDiv.classList.remove("success", "error");
+    }, 4000);
   }
 
   function enviarMensaje() {
@@ -177,5 +266,3 @@
 
 </body>
 </html>
-
-
