@@ -1,21 +1,20 @@
-
 {
-  "name": "Portero Web - Torre 5B",
-  "short_name": "Portero 5B",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#004080",
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
+    "name": "Edificio 5 - Barrio Samore",
+    "short_name": "Edificio 5",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#f1f8ff",
+    "theme_color": "#2874A6",
+    "icons": [
+        {
+            "src": "logo-edificio.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "logo-edificio.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }
