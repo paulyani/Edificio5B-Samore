@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Contacto por WhatsApp</title>
+<title>Contacto por WhatsApp - Edificio</title>
 <style>
   #personaContainer { margin-top: 10px; }
   #mensaje { margin-top: 10px; font-weight: bold; }
@@ -11,14 +11,21 @@
 </head>
 <body>
 
-<h2>Enviar mensaje a contacto</h2>
+<h2>Enviar mensaje a contacto del edificio</h2>
 
 <label for="deptoSelect">Departamento:</label>
 <select id="deptoSelect">
   <option value="">-- Seleccioná un departamento --</option>
-  <option value="101">101</option>
-  <option value="102">102</option>
-  <option value="PB-Porteria">Portería (PB)</option>
+  <option value="PB-Porteria">PB - Portería</option>
+  <option value="1F">1F</option>
+  <option value="2F">2F</option>
+  <option value="3F">3F</option>
+  <option value="4F">4F</option>
+  <option value="5F">5F</option>
+  <option value="6F">6F</option>
+  <option value="7F">7F</option>
+  <option value="8F">8F</option>
+  <option value="9F">9F</option>
 </select>
 
 <div id="personaContainer" style="display:none;">
@@ -39,17 +46,39 @@
 <div id="mensaje"></div>
 
 <script>
-  // Datos de ejemplo de contactos
+  // Contactos actualizados con PB y 1F a 9F
   const contactos = {
-    "101": [
-      { nombre: "Juan Pérez", numero: "541112345678" },
-      { nombre: "Ana Gómez", numero: "541198765432" }
-    ],
-    "102": [
-      { nombre: "Carlos López", numero: "541176543210" }
-    ],
     "PB-Porteria": [
-      { nombre: "Portería", numero: "541112233445" }
+      { nombre: "Portería General", numero: "541100000001" },
+      { nombre: "Propietario PB 1", numero: "541100000002" },
+      { nombre: "Propietario PB 2", numero: "541100000003" }
+    ],
+    "1F": [
+      { nombre: "Juan Pérez", numero: "541111111111" }
+    ],
+    "2F": [
+      { nombre: "Ana Gómez", numero: "541122222222" }
+    ],
+    "3F": [
+      { nombre: "Carlos López", numero: "541133333333" }
+    ],
+    "4F": [
+      { nombre: "Lucía Martínez", numero: "541144444444" }
+    ],
+    "5F": [
+      { nombre: "Pedro Sánchez", numero: "541155555555" }
+    ],
+    "6F": [
+      { nombre: "Marta Díaz", numero: "541166666666" }
+    ],
+    "7F": [
+      { nombre: "Diego Fernández", numero: "541177777777" }
+    ],
+    "8F": [
+      { nombre: "Sofía Torres", numero: "541188888888" }
+    ],
+    "9F": [
+      { nombre: "Luis Gómez", numero: "541199999999" }
     ]
   };
 
@@ -131,4 +160,5 @@
 
 </body>
 </html>
+
 
