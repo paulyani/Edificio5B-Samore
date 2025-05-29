@@ -3,181 +3,236 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Contacto Edificio WhatsApp</title>
+<title>Enviar WhatsApp Edificio</title>
 <style>
   body {
     font-family: Arial, sans-serif;
-    background: #f0f4f8;
-    color: #222;
-    margin: 0; padding: 20px;
-    display: flex; justify-content: center; align-items: flex-start;
-    min-height: 100vh;
-  }
-  main {
-    background: white;
+    max-width: 480px;
+    margin: 30px auto;
+    background: #f9f9f9;
+    padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-    padding: 25px 30px;
-    max-width: 400px;
-    width: 100%;
-  }
-  h1 {
-    margin-top: 0;
-    margin-bottom: 25px;
-    font-weight: 700;
-    color: #0077cc;
-    text-align: center;
+    box-shadow: 0 0 10px #ccc;
   }
   label {
     display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
+    margin: 12px 0 6px;
   }
-  select, input[type="text"] {
+  select, input[type=text] {
     width: 100%;
-    padding: 10px 12px;
-    border: 1.8px solid #bbb;
-    border-radius: 6px;
+    padding: 8px 10px;
     font-size: 1rem;
-    transition: border-color 0.3s ease;
-    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
   }
-  select:focus, input[type="text"]:focus {
-    border-color: #0077cc;
-    outline: none;
-  }
-  #personaContainer {
-    display: none;
-    margin-bottom: 10px;
+  #persona-container {
+    margin-top: 10px;
   }
   button {
+    margin-top: 15px;
     width: 100%;
-    padding: 14px 0;
-    background-color: #0077cc;
-    color: white;
-    font-weight: 700;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    padding: 10px;
     font-size: 1.1rem;
-    margin-bottom: 10px;
-    transition: background-color 0.25s ease;
+    border: none;
+    border-radius: 4px;
+    background-color: #2b7a78;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   button:hover {
-    background-color: #005fa3;
-  }
-  #btnPorteria {
-    background-color: #28a745;
-  }
-  #btnPorteria:hover {
-    background-color: #1e7e34;
+    background-color: #3aafa9;
   }
   #mensaje {
-    min-height: 24px;
+    margin-top: 15px;
+    font-weight: bold;
+    height: 24px;
     text-align: center;
-    font-weight: 600;
-  }
-  #mensaje.success {
-    color: #2d7a2d;
-  }
-  #mensaje.error {
-    color: #a33;
   }
 </style>
 </head>
 <body>
 
-<main>
-  <h1>Enviar mensaje a contacto</h1>
+<h2>Enviar mensaje a contacto</h2>
 
-  <label for="deptoSelect">Departamento</label>
-  <select id="deptoSelect" aria-label="Seleccionar departamento">
-    <option value="">-- Seleccioná un departamento --</option>
-    <option value="PB">PB</option>
-    <option value="0F">0F</option>
-    <option value="1F">1F</option>
-    <option value="2F">2F</option>
-    <option value="3F">3F</option>
-    <option value="4F">4F</option>
-    <option value="5F">5F</option>
-    <option value="6F">6F</option>
-    <option value="7F">7F</option>
-    <option value="8F">8F</option>
-    <option value="9F">9F</option>
-  </select>
+<label for="depto">Departamento:</label>
+<select id="depto">
+  <option value="">-- Seleccioná un departamento --</option>
+  <option value="PB">PB</option>
+  <option value="0D">0D</option>
+  <option value="0E">0E</option>
+  <option value="0F">0F</option>
+  <option value="1D">1D</option>
+  <option value="1E">1E</option>
+  <option value="1F">1F</option>
+  <option value="2D">2D</option>
+  <option value="2E">2E</option>
+  <option value="2F">2F</option>
+  <option value="3D">3D</option>
+  <option value="3E">3E</option>
+  <option value="3F">3F</option>
+  <option value="4D">4D</option>
+  <option value="4E">4E</option>
+  <option value="4F">4F</option>
+  <option value="5D">5D</option>
+  <option value="5E">5E</option>
+  <option value="5F">5F</option>
+  <option value="6D">6D</option>
+  <option value="6E">6E</option>
+  <option value="6F">6F</option>
+  <option value="7D">7D</option>
+  <option value="7E">7E</option>
+  <option value="7F">7F</option>
+  <option value="8D">8D</option>
+  <option value="8E">8E</option>
+  <option value="8F">8F</option>
+  <option value="9D">9D</option>
+  <option value="9E">9E</option>
+  <option value="9F">9F</option>
+</select>
 
-  <div id="personaContainer">
-    <label for="personaSelect">Persona</label>
-    <select id="personaSelect" aria-label="Seleccionar persona"></select>
-  </div>
+<div id="persona-container" style="display:none;">
+  <label for="persona">Contacto:</label>
+  <select id="persona"></select>
+</div>
 
-  <label for="tipo">Tipo (Ej: Repartidor, Visitante)</label>
-  <input type="text" id="tipo" placeholder="Tu tipo aquí" aria-label="Tipo de persona" />
+<label for="tipo">Tipo (Ej: Repartidor, Visitante):</label>
+<input type="text" id="tipo" placeholder="Tu tipo aquí" />
 
-  <button id="btnEnviar">Enviar mensaje WhatsApp</button>
-  <button id="btnPorteria">Avisar a Portería</button>
+<button id="btnEnviar">Enviar mensaje WhatsApp</button>
+<button id="btnPorteria">Avisar a Portería</button>
 
-  <div id="mensaje"></div>
-</main>
+<div id="mensaje"></div>
 
 <script>
-  // Contactos organizados por departamento,
-  // cada uno puede tener 1 o más personas (nombre + número)
   const contactos = {
     "PB": [
       { nombre: "Portería General", numero: "5491100000001" },
       { nombre: "Propietario PB 1", numero: "5491100000002" },
-      { nombre: "Propietario PB 2", numero: "5491100000003" }
+      { nombre: "Propietario PB 2", numero: "5491100000003" },
+      { nombre: "Propietario PB 3", numero: "5491100000099" }
+    ],
+    "0D": [
+      { nombre: "Propietario 0D 1", numero: "5491100000004" },
+      { nombre: "Propietario 0D 2", numero: "5491100000005" }
+    ],
+    "0E": [
+      { nombre: "Propietario 0E 1", numero: "5491100000010" }
     ],
     "0F": [
-      { nombre: "Propietario 0F 1", numero: "5491100000004" },
-      { nombre: "Propietario 0F 2", numero: "5491100000005" }
+      { nombre: "Propietario 0F 1", numero: "5491100000006" },
+      { nombre: "Propietario 0F 2", numero: "5491100000007" },
+      { nombre: "Propietario 0F 3", numero: "5491100000011" }
+    ],
+    "1D": [
+      { nombre: "Juan Pérez", numero: "5491100000008" },
+      { nombre: "María López", numero: "5491100000012" }
+    ],
+    "1E": [
+      { nombre: "Persona 1E 1", numero: "5491100000013" }
     ],
     "1F": [
-      { nombre: "Juan Pérez", numero: "5491100000006" }
+      { nombre: "Ana Gómez", numero: "5491100000014" },
+      { nombre: "Pedro Ramírez", numero: "5491100000015" }
+    ],
+    "2D": [
+      { nombre: "Carlos López", numero: "5491100000016" }
+    ],
+    "2E": [
+      { nombre: "Lucía Martínez", numero: "5491100000017" }
     ],
     "2F": [
-      { nombre: "Ana Gómez", numero: "5491100000007" }
+      { nombre: "Pedro Sánchez", numero: "5491100000018" },
+      { nombre: "Sofía Díaz", numero: "5491100000019" },
+      { nombre: "Contacto Extra 2F", numero: "5491100000020" }
+    ],
+    // ... completa similar para el resto de departamentos 3D,3E,3F... 9F ...
+    "3D": [
+      { nombre: "Marta Díaz", numero: "5491100000021" }
+    ],
+    "3E": [
+      { nombre: "Diego Fernández", numero: "5491100000022" }
     ],
     "3F": [
-      { nombre: "Carlos López", numero: "5491100000008" }
+      { nombre: "Sofía Torres", numero: "5491100000023" }
+    ],
+    "4D": [
+      { nombre: "Luis Gómez", numero: "5491100000024" }
+    ],
+    "4E": [
+      { nombre: "Ana Torres", numero: "5491100000025" }
     ],
     "4F": [
-      { nombre: "Lucía Martínez", numero: "5491100000009" }
+      { nombre: "Contacto 4F 1", numero: "5491100000026" },
+      { nombre: "Contacto 4F 2", numero: "5491100000027" }
+    ],
+    "5D": [
+      { nombre: "Contacto 5D 1", numero: "5491100000028" }
+    ],
+    "5E": [
+      { nombre: "Contacto 5E 1", numero: "5491100000029" }
     ],
     "5F": [
-      { nombre: "Pedro Sánchez", numero: "5491100000010" }
+      { nombre: "Contacto 5F 1", numero: "5491100000030" },
+      { nombre: "Contacto 5F 2", numero: "5491100000031" },
+      { nombre: "Contacto 5F 3", numero: "5491100000032" },
+      { nombre: "Contacto 5F 4", numero: "5491100000033" },
+      { nombre: "Contacto 5F 5", numero: "5491100000034" }
+    ],
+    "6D": [
+      { nombre: "Contacto 6D 1", numero: "5491100000035" }
+    ],
+    "6E": [
+      { nombre: "Contacto 6E 1", numero: "5491100000036" }
     ],
     "6F": [
-      { nombre: "Marta Díaz", numero: "5491100000011" }
+      { nombre: "Contacto 6F 1", numero: "5491100000037" }
+    ],
+    "7D": [
+      { nombre: "Contacto 7D 1", numero: "5491100000038" }
+    ],
+    "7E": [
+      { nombre: "Contacto 7E 1", numero: "5491100000039" }
     ],
     "7F": [
-      { nombre: "Diego Fernández", numero: "5491100000012" }
+      { nombre: "Contacto 7F 1", numero: "5491100000040" }
+    ],
+    "8D": [
+      { nombre: "Contacto 8D 1", numero: "5491100000041" }
+    ],
+    "8E": [
+      { nombre: "Contacto 8E 1", numero: "5491100000042" }
     ],
     "8F": [
-      { nombre: "Sofía Torres", numero: "5491100000013" }
+      { nombre: "Contacto 8F 1", numero: "5491100000043" }
+    ],
+    "9D": [
+      { nombre: "Contacto 9D 1", numero: "5491100000044" }
+    ],
+    "9E": [
+      { nombre: "Contacto 9E 1", numero: "5491100000045" }
     ],
     "9F": [
-      { nombre: "Luis Gómez", numero: "5491100000014" }
+      { nombre: "Luis Gómez", numero: "5491100000046" },
+      { nombre: "Ana Torres", numero: "5491100000047" },
+      { nombre: "Contacto Extra 9F 3", numero: "5491100000048" }
     ]
   };
 
-  const deptoSelect = document.getElementById("deptoSelect");
-  const personaContainer = document.getElementById("personaContainer");
-  const personaSelect = document.getElementById("personaSelect");
+  const deptoSelect = document.getElementById("depto");
+  const personaContainer = document.getElementById("persona-container");
+  const personaSelect = document.getElementById("persona");
   const tipoInput = document.getElementById("tipo");
   const mensajeDiv = document.getElementById("mensaje");
-  const btnEnviar = document.getElementById("btnEnviar");
-  const btnPorteria = document.getElementById("btnPorteria");
 
-  // Al cargar la página, recupero última selección si existe
-  window.onload = () => {
+  // Carga el último departamento seleccionado, si existe
+  window.addEventListener("load", () => {
     const ultimoDepto = localStorage.getItem("ultimoDepto");
     if (ultimoDepto && contactos[ultimoDepto]) {
       deptoSelect.value = ultimoDepto;
       actualizarPersonas();
     }
-  };
+  });
 
   deptoSelect.addEventListener("change", actualizarPersonas);
 
@@ -189,40 +244,31 @@
     if (personas.length > 1) {
       personaContainer.style.display = "block";
       personas.forEach(p => {
-        const option = document.createElement("option");
-        option.value = p.numero;
-        option.textContent = p.nombre;
-        personaSelect.appendChild(option);
+        const opt = document.createElement("option");
+        opt.value = p.numero;
+        opt.textContent = p.nombre;
+        personaSelect.appendChild(opt);
       });
     } else {
       personaContainer.style.display = "none";
     }
   }
 
-  function mostrarMensaje(msg, tipo = "success") {
+  function mostrarMensaje(msg, color = "green") {
     mensajeDiv.textContent = msg;
-    if (tipo === "success") {
-      mensajeDiv.classList.remove("error");
-      mensajeDiv.classList.add("success");
-    } else {
-      mensajeDiv.classList.remove("success");
-      mensajeDiv.classList.add("error");
-    }
-    setTimeout(() => {
-      mensajeDiv.textContent = "";
-      mensajeDiv.classList.remove("success", "error");
-    }, 4000);
+    mensajeDiv.style.color = color;
+    setTimeout(() => (mensajeDiv.textContent = ""), 4000);
   }
 
-  btnEnviar.addEventListener("click", () => {
+  function enviarMensaje() {
     const depto = deptoSelect.value;
     const tipo = tipoInput.value.trim();
     if (!depto || !contactos[depto]) {
-      mostrarMensaje("Seleccioná un departamento válido", "error");
+      mostrarMensaje("Seleccioná un departamento válido", "red");
       return;
     }
     if (!tipo) {
-      mostrarMensaje("Ingresá tu tipo (Ej: Repartidor)", "error");
+      mostrarMensaje("Ingresá un tipo válido", "red");
       return;
     }
     const personas = contactos[depto];
@@ -234,22 +280,21 @@
     const url = `${baseUrl}?phone=${contacto}&text=${encodedMsg}`;
     window.open(url, "_blank");
     mostrarMensaje("Mensaje preparado para enviar.");
-  });
+  }
 
-  btnPorteria.addEventListener("click", () => {
-    const porteria = contactos["PB"][0];
-    if (!porteria) {
-      mostrarMensaje("No se encontró contacto de portería", "error");
-      return;
-    }
+  function avisarPorteria() {
+    const persona = contactos["PB"][0];
     const texto = "Hola, estoy en la entrada del edificio. Necesito comunicarme con la portería.";
     const encodedMsg = encodeURIComponent(texto);
     const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
-    const url = `${baseUrl}?phone=${porteria.numero}&text=${encodedMsg}`;
+    const url = `${baseUrl}?phone=${persona.numero}&text=${encodedMsg}`;
     window.open(url, "_blank");
     mostrarMensaje("Aviso enviado a portería.");
-  });
+  }
+
+  document.getElementById("btnEnviar").addEventListener("click", enviarMensaje);
+  document.getElementById("btnPorteria").addEventListener("click", avisarPorteria);
 </script>
 
 </body>
