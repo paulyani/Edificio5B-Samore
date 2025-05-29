@@ -3,130 +3,85 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Contacto Edificio por WhatsApp</title>
+<title>Contacto Edificio WhatsApp</title>
 <style>
-  /* Reset básico */
-  * {
-    box-sizing: border-box;
-  }
-
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #d4f1f4, #0d324d);
-    color: #0d324d;
+    font-family: Arial, sans-serif;
+    background: #f0f4f8;
+    color: #222;
+    margin: 0; padding: 20px;
+    display: flex; justify-content: center; align-items: flex-start;
     min-height: 100vh;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
   }
-
   main {
-    background: #ffffffdd;
-    max-width: 420px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+    padding: 25px 30px;
+    max-width: 400px;
     width: 100%;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgb(13 50 77 / 0.3);
-    padding: 30px 30px 40px;
+  }
+  h1 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-weight: 700;
+    color: #0077cc;
     text-align: center;
   }
-
-  h1 {
-    margin-bottom: 18px;
-    font-weight: 700;
-    font-size: 1.8rem;
-    letter-spacing: 1.3px;
-    color: #065a82;
-  }
-
   label {
     display: block;
-    text-align: left;
-    font-weight: 600;
-    margin-top: 20px;
     margin-bottom: 6px;
-    color: #09527a;
-    user-select: none;
+    font-weight: 600;
   }
-
   select, input[type="text"] {
     width: 100%;
-    padding: 12px 15px;
-    border-radius: 12px;
-    border: 2px solid #a6c8d9;
+    padding: 10px 12px;
+    border: 1.8px solid #bbb;
+    border-radius: 6px;
     font-size: 1rem;
     transition: border-color 0.3s ease;
-  }
-  select:hover, input[type="text"]:hover {
-    border-color: #488fc2;
+    margin-bottom: 18px;
   }
   select:focus, input[type="text"]:focus {
-    border-color: #09527a;
+    border-color: #0077cc;
     outline: none;
-    box-shadow: 0 0 6px #2b6ca3aa;
   }
-
   #personaContainer {
-    margin-top: 10px;
+    display: none;
+    margin-bottom: 10px;
   }
-
   button {
-    margin-top: 26px;
     width: 100%;
-    background: #09527a;
+    padding: 14px 0;
+    background-color: #0077cc;
     color: white;
     font-weight: 700;
-    font-size: 1.15rem;
-    padding: 14px 0;
     border: none;
-    border-radius: 15px;
+    border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgb(9 82 122 / 0.4);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    user-select: none;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    transition: background-color 0.25s ease;
   }
   button:hover {
-    background-color: #0c75c0;
-    box-shadow: 0 8px 20px rgb(12 117 192 / 0.6);
+    background-color: #005fa3;
   }
-
   #btnPorteria {
-    margin-top: 12px;
-    background: #28a745;
-    box-shadow: 0 5px 15px rgb(40 167 69 / 0.4);
+    background-color: #28a745;
   }
   #btnPorteria:hover {
-    background-color: #3ec16f;
-    box-shadow: 0 8px 20px rgb(62 193 111 / 0.7);
+    background-color: #1e7e34;
   }
-
   #mensaje {
-    margin-top: 25px;
+    min-height: 24px;
+    text-align: center;
     font-weight: 600;
-    min-height: 26px;
-    font-size: 1rem;
-    user-select: none;
-    color: #096c13;
-    transition: color 0.3s ease;
   }
-
+  #mensaje.success {
+    color: #2d7a2d;
+  }
   #mensaje.error {
-    color: #b92c2c;
-  }
-
-  /* Emoji pequeño al lado de mensaje */
-  #mensaje::before {
-    content: "";
-    display: inline-block;
-    margin-right: 8px;
-    vertical-align: middle;
-  }
-  #mensaje.success::before {
-    content: "✅";
-  }
-  #mensaje.error::before {
-    content: "❌";
+    color: #a33;
   }
 </style>
 </head>
@@ -135,10 +90,11 @@
 <main>
   <h1>Enviar mensaje a contacto</h1>
 
-  <label for="deptoSelect">Departamento:</label>
+  <label for="deptoSelect">Departamento</label>
   <select id="deptoSelect" aria-label="Seleccionar departamento">
     <option value="">-- Seleccioná un departamento --</option>
-    <option value="PB-Porteria">PB - Portería</option>
+    <option value="PB">PB</option>
+    <option value="0F">0F</option>
     <option value="1F">1F</option>
     <option value="2F">2F</option>
     <option value="3F">3F</option>
@@ -150,43 +106,71 @@
     <option value="9F">9F</option>
   </select>
 
-  <div id="personaContainer" style="display:none;">
-    <label for="personaSelect">Persona:</label>
+  <div id="personaContainer">
+    <label for="personaSelect">Persona</label>
     <select id="personaSelect" aria-label="Seleccionar persona"></select>
   </div>
 
-  <label for="tipo">Tipo (Ej: Repartidor, Visitante):</label>
+  <label for="tipo">Tipo (Ej: Repartidor, Visitante)</label>
   <input type="text" id="tipo" placeholder="Tu tipo aquí" aria-label="Tipo de persona" />
 
-  <button onclick="enviarMensaje()">Enviar mensaje WhatsApp</button>
-  <button id="btnPorteria" onclick="avisarPorteria()">Avisar a Portería</button>
+  <button id="btnEnviar">Enviar mensaje WhatsApp</button>
+  <button id="btnPorteria">Avisar a Portería</button>
 
   <div id="mensaje"></div>
 </main>
 
 <script>
+  // Contactos organizados por departamento,
+  // cada uno puede tener 1 o más personas (nombre + número)
   const contactos = {
-    "PB-Porteria": [
-      { nombre: "Portería General", numero: "541100000001" },
-      { nombre: "Propietario PB 1", numero: "541100000002" },
-      { nombre: "Propietario PB 2", numero: "541100000003" }
+    "PB": [
+      { nombre: "Portería General", numero: "5491100000001" },
+      { nombre: "Propietario PB 1", numero: "5491100000002" },
+      { nombre: "Propietario PB 2", numero: "5491100000003" }
     ],
-    "1F": [{ nombre: "Juan Pérez", numero: "541111111111" }],
-    "2F": [{ nombre: "Ana Gómez", numero: "541122222222" }],
-    "3F": [{ nombre: "Carlos López", numero: "541133333333" }],
-    "4F": [{ nombre: "Lucía Martínez", numero: "541144444444" }],
-    "5F": [{ nombre: "Pedro Sánchez", numero: "541155555555" }],
-    "6F": [{ nombre: "Marta Díaz", numero: "541166666666" }],
-    "7F": [{ nombre: "Diego Fernández", numero: "541177777777" }],
-    "8F": [{ nombre: "Sofía Torres", numero: "541188888888" }],
-    "9F": [{ nombre: "Luis Gómez", numero: "541199999999" }]
+    "0F": [
+      { nombre: "Propietario 0F 1", numero: "5491100000004" },
+      { nombre: "Propietario 0F 2", numero: "5491100000005" }
+    ],
+    "1F": [
+      { nombre: "Juan Pérez", numero: "5491100000006" }
+    ],
+    "2F": [
+      { nombre: "Ana Gómez", numero: "5491100000007" }
+    ],
+    "3F": [
+      { nombre: "Carlos López", numero: "5491100000008" }
+    ],
+    "4F": [
+      { nombre: "Lucía Martínez", numero: "5491100000009" }
+    ],
+    "5F": [
+      { nombre: "Pedro Sánchez", numero: "5491100000010" }
+    ],
+    "6F": [
+      { nombre: "Marta Díaz", numero: "5491100000011" }
+    ],
+    "7F": [
+      { nombre: "Diego Fernández", numero: "5491100000012" }
+    ],
+    "8F": [
+      { nombre: "Sofía Torres", numero: "5491100000013" }
+    ],
+    "9F": [
+      { nombre: "Luis Gómez", numero: "5491100000014" }
+    ]
   };
 
   const deptoSelect = document.getElementById("deptoSelect");
-  const personaSelect = document.getElementById("personaSelect");
   const personaContainer = document.getElementById("personaContainer");
+  const personaSelect = document.getElementById("personaSelect");
+  const tipoInput = document.getElementById("tipo");
   const mensajeDiv = document.getElementById("mensaje");
+  const btnEnviar = document.getElementById("btnEnviar");
+  const btnPorteria = document.getElementById("btnPorteria");
 
+  // Al cargar la página, recupero última selección si existe
   window.onload = () => {
     const ultimoDepto = localStorage.getItem("ultimoDepto");
     if (ultimoDepto && contactos[ultimoDepto]) {
@@ -205,19 +189,19 @@
     if (personas.length > 1) {
       personaContainer.style.display = "block";
       personas.forEach(p => {
-        const opt = document.createElement("option");
-        opt.value = p.numero;
-        opt.textContent = p.nombre;
-        personaSelect.appendChild(opt);
+        const option = document.createElement("option");
+        option.value = p.numero;
+        option.textContent = p.nombre;
+        personaSelect.appendChild(option);
       });
     } else {
       personaContainer.style.display = "none";
     }
   }
 
-  function mostrarMensaje(msg, color = "green") {
+  function mostrarMensaje(msg, tipo = "success") {
     mensajeDiv.textContent = msg;
-    if (color === "green") {
+    if (tipo === "success") {
       mensajeDiv.classList.remove("error");
       mensajeDiv.classList.add("success");
     } else {
@@ -230,15 +214,15 @@
     }, 4000);
   }
 
-  function enviarMensaje() {
+  btnEnviar.addEventListener("click", () => {
     const depto = deptoSelect.value;
-    const tipo = document.getElementById("tipo").value.trim();
+    const tipo = tipoInput.value.trim();
     if (!depto || !contactos[depto]) {
-      mostrarMensaje("Seleccioná un departamento válido", "red");
+      mostrarMensaje("Seleccioná un departamento válido", "error");
       return;
     }
     if (!tipo) {
-      mostrarMensaje("Ingresá tu tipo (Ej: Repartidor)", "red");
+      mostrarMensaje("Ingresá tu tipo (Ej: Repartidor)", "error");
       return;
     }
     const personas = contactos[depto];
@@ -250,18 +234,22 @@
     const url = `${baseUrl}?phone=${contacto}&text=${encodedMsg}`;
     window.open(url, "_blank");
     mostrarMensaje("Mensaje preparado para enviar.");
-  }
+  });
 
-  function avisarPorteria() {
-    const persona = contactos["PB-Porteria"][0];
+  btnPorteria.addEventListener("click", () => {
+    const porteria = contactos["PB"][0];
+    if (!porteria) {
+      mostrarMensaje("No se encontró contacto de portería", "error");
+      return;
+    }
     const texto = "Hola, estoy en la entrada del edificio. Necesito comunicarme con la portería.";
     const encodedMsg = encodeURIComponent(texto);
     const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const baseUrl = esMovil ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
-    const url = `${baseUrl}?phone=${persona.numero}&text=${encodedMsg}`;
+    const url = `${baseUrl}?phone=${porteria.numero}&text=${encodedMsg}`;
     window.open(url, "_blank");
     mostrarMensaje("Aviso enviado a portería.");
-  }
+  });
 </script>
 
 </body>
