@@ -1,48 +1,75 @@
-<!-- Ejemplo básico del HTML -->
-<select id="depto" onchange="actualizarPersonas()">
-  <option value="">Seleccioná un departamento</option>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contacto por WhatsApp</title>
+<style>
+  #personaContainer { margin-top: 10px; }
+  #mensaje { margin-top: 10px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h2>Enviar mensaje a contacto</h2>
+
+<label for="deptoSelect">Departamento:</label>
+<select id="deptoSelect">
+  <option value="">-- Seleccioná un departamento --</option>
   <option value="101">101</option>
   <option value="102">102</option>
-  <option value="PB-Porteria">PB-Porteria</option>
-  <!-- Agrega los departamentos que tengas -->
+  <option value="PB-Porteria">Portería (PB)</option>
 </select>
 
-<div id="persona-container" style="display:none;">
-  <select id="persona"></select>
+<div id="personaContainer" style="display:none;">
+  <label for="personaSelect">Persona:</label>
+  <select id="personaSelect"></select>
 </div>
 
-<select id="tipo">
-  <option value="Visitante">Visitante</option>
-  <option value="Proveedor">Proveedor</option>
-  <option value="Residente">Residente</option>
-</select>
+<br/>
 
-<button onclick="enviarMensaje()">Enviar Mensaje</button>
-<button onclick="avisarPorteria()">Avisar Portería</button>
+<label for="tipo">Tipo (Ej: Repartidor, Visitante):</label>
+<input type="text" id="tipo" placeholder="Tu tipo aquí" />
 
-<div id="mensaje" style="margin-top:10px; font-weight:bold;"></div>
+<br/><br/>
+
+<button onclick="enviarMensaje()">Enviar mensaje WhatsApp</button>
+<button onclick="avisarPorteria()">Avisar a Portería</button>
+
+<div id="mensaje"></div>
 
 <script>
-  // Ejemplo de contactos, adaptalo a tus datos reales
+  // Datos de ejemplo de contactos
   const contactos = {
     "101": [
-      { nombre: "Juan Pérez", numero: "5491123456789" }
+      { nombre: "Juan Pérez", numero: "541112345678" },
+      { nombre: "Ana Gómez", numero: "541198765432" }
     ],
     "102": [
-      { nombre: "Ana Gómez", numero: "5491198765432" },
-      { nombre: "Luis Martínez", numero: "5491165432109" }
+      { nombre: "Carlos López", numero: "541176543210" }
     ],
     "PB-Porteria": [
-      { nombre: "Portería", numero: "5491176543210" }
+      { nombre: "Portería", numero: "541112233445" }
     ]
   };
 
-  // Variables para elementos del DOM
-  const deptoSelect = document.getElementById("depto");
-  const personaSelect = document.getElementById("persona");
-  const personaContainer = document.getElementById("persona-container");
+  // Referencias a elementos DOM
+  const deptoSelect = document.getElementById("deptoSelect");
+  const personaSelect = document.getElementById("personaSelect");
+  const personaContainer = document.getElementById("personaContainer");
 
-  // Funciones
+  // Carga última selección del departamento
+  window.onload = () => {
+    const ultimoDepto = localStorage.getItem("ultimoDepto");
+    if (ultimoDepto && contactos[ultimoDepto]) {
+      deptoSelect.value = ultimoDepto;
+      actualizarPersonas();
+    }
+  };
+
+  // Actualiza lista de personas según departamento seleccionado
+  deptoSelect.addEventListener("change", actualizarPersonas);
+
   function actualizarPersonas() {
     const depto = deptoSelect.value;
     localStorage.setItem("ultimoDepto", depto);
@@ -70,9 +97,13 @@
 
   function enviarMensaje() {
     const depto = deptoSelect.value;
-    const tipo = document.getElementById("tipo").value;
+    const tipo = document.getElementById("tipo").value.trim();
     if (!depto || !contactos[depto]) {
       mostrarMensaje("Seleccioná un departamento válido", "red");
+      return;
+    }
+    if (!tipo) {
+      mostrarMensaje("Ingresá tu tipo (Ej: Repartidor)", "red");
       return;
     }
     const personas = contactos[depto];
@@ -96,13 +127,8 @@
     window.open(url, "_blank");
     mostrarMensaje("Aviso enviado a portería.");
   }
-
-  // Si querés, podés restaurar la última selección al cargar la página:
-  window.onload = () => {
-    const ultimoDepto = localStorage.getItem("ultimoDepto");
-    if (ultimoDepto && contactos[ultimoDepto]) {
-      deptoSelect.value = ultimoDepto;
-      actualizarPersonas();
-    }
-  };
 </script>
+
+</body>
+</html>
+
