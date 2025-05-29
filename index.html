@@ -5,13 +5,56 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Contacto por WhatsApp - Edificio</title>
 <style>
-  #personaContainer { margin-top: 10px; }
-  #mensaje { margin-top: 10px; font-weight: bold; }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 30px;
+    max-width: 400px;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+  select, input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
+  button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #218838;
+  }
+  #personaContainer {
+    margin-top: 15px;
+  }
+  #mensaje {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  .btn-secondary {
+    background-color: #007bff;
+    margin-left: 10px;
+  }
+  .btn-secondary:hover {
+    background-color: #0069d9;
+  }
 </style>
 </head>
 <body>
 
-<h2>Enviar mensaje a contacto del edificio</h2>
+<h2>Enviar mensaje a contacto</h2>
 
 <label for="deptoSelect">Departamento:</label>
 <select id="deptoSelect">
@@ -33,61 +76,36 @@
   <select id="personaSelect"></select>
 </div>
 
-<br/>
-
 <label for="tipo">Tipo (Ej: Repartidor, Visitante):</label>
 <input type="text" id="tipo" placeholder="Tu tipo aquí" />
 
-<br/><br/>
-
 <button onclick="enviarMensaje()">Enviar mensaje WhatsApp</button>
-<button onclick="avisarPorteria()">Avisar a Portería</button>
+<button class="btn-secondary" onclick="avisarPorteria()">Avisar a Portería</button>
 
 <div id="mensaje"></div>
 
 <script>
-  // Contactos actualizados con PB y 1F a 9F
   const contactos = {
     "PB-Porteria": [
       { nombre: "Portería General", numero: "541100000001" },
       { nombre: "Propietario PB 1", numero: "541100000002" },
       { nombre: "Propietario PB 2", numero: "541100000003" }
     ],
-    "1F": [
-      { nombre: "Juan Pérez", numero: "541111111111" }
-    ],
-    "2F": [
-      { nombre: "Ana Gómez", numero: "541122222222" }
-    ],
-    "3F": [
-      { nombre: "Carlos López", numero: "541133333333" }
-    ],
-    "4F": [
-      { nombre: "Lucía Martínez", numero: "541144444444" }
-    ],
-    "5F": [
-      { nombre: "Pedro Sánchez", numero: "541155555555" }
-    ],
-    "6F": [
-      { nombre: "Marta Díaz", numero: "541166666666" }
-    ],
-    "7F": [
-      { nombre: "Diego Fernández", numero: "541177777777" }
-    ],
-    "8F": [
-      { nombre: "Sofía Torres", numero: "541188888888" }
-    ],
-    "9F": [
-      { nombre: "Luis Gómez", numero: "541199999999" }
-    ]
+    "1F": [{ nombre: "Juan Pérez", numero: "541111111111" }],
+    "2F": [{ nombre: "Ana Gómez", numero: "541122222222" }],
+    "3F": [{ nombre: "Carlos López", numero: "541133333333" }],
+    "4F": [{ nombre: "Lucía Martínez", numero: "541144444444" }],
+    "5F": [{ nombre: "Pedro Sánchez", numero: "541155555555" }],
+    "6F": [{ nombre: "Marta Díaz", numero: "541166666666" }],
+    "7F": [{ nombre: "Diego Fernández", numero: "541177777777" }],
+    "8F": [{ nombre: "Sofía Torres", numero: "541188888888" }],
+    "9F": [{ nombre: "Luis Gómez", numero: "541199999999" }]
   };
 
-  // Referencias a elementos DOM
   const deptoSelect = document.getElementById("deptoSelect");
   const personaSelect = document.getElementById("personaSelect");
   const personaContainer = document.getElementById("personaContainer");
 
-  // Carga última selección del departamento
   window.onload = () => {
     const ultimoDepto = localStorage.getItem("ultimoDepto");
     if (ultimoDepto && contactos[ultimoDepto]) {
@@ -96,7 +114,6 @@
     }
   };
 
-  // Actualiza lista de personas según departamento seleccionado
   deptoSelect.addEventListener("change", actualizarPersonas);
 
   function actualizarPersonas() {
