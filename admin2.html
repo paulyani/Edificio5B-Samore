@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Contactos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .input-focus:focus { box-shadow: 0 0 0 2px #3aafa9; border-color: #2b7a78; }
+        .btn-download { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .8; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto max-w-3xl p-4 sm:p-6 lg:p-8">
+        
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+             <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">Administrar Contactos</h1>
+                <a href="index.html" class="text-sm font-medium text-teal-600 hover:text-teal-800">&larr; Volver a la app</a>
+            </div>
+            <div id="save-section" class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-md">
+                <p class="font-bold">¡Importante!</p>
+                <p class="text-sm">Los cambios que realices aquí solo serán visibles temporalmente. Para guardarlos de forma permanente, haz clic en el botón "Guardar y Descargar Archivo", y reemplaza el archivo `contactos.js` existente en tu servidor con el nuevo archivo descargado.</p>
+                <button id="download-btn" class="mt-3 px-5 py-2 text-sm font-semibold text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition btn-download">
+                    Guardar Cambios y Descargar Archivo
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <!-- Formulario para agregar/editar contactos -->
+            <form id="contact-form" class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-8">
+                <h2 id="form-title" class="text-lg font-semibold text-gray-700 mb-4">Agregar Nuevo Contacto</h2>
+                <input type="hidden" id="edit-index" value="">
+                <input type="hidden" id="edit-depto" value="">
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="depto" class="block text-sm font-medium text-gray-600 mb-1">Departamento</label>
+                        <input type="text" id="depto" name="depto" placeholder="Ej: 3F, PBE" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none input-focus transition">
+                    </div>
+                    <div>
+                        <label for="nombre" class="block text-sm font-medium text-gray-600 mb-1">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Nombre del contacto" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none input-focus transition">
+                    </div>
+                    <div>
+                        <label for="numero" class="block text-sm font-medium text-gray-600 mb-1">Número WhatsApp</label>
+                        <input type="text" id="numero" name="numero" placeholder="54911..." required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none input-focus transition">
+                    </div>
+                </div>
+                <div class="flex items-center justify-end mt-4 space-x-3">
+                     <button type="button" id="cancel-edit-btn" class="hidden px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 text-sm font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition">Actualizar en la Lista</button>
+                </div>
+            </form>
+
+            <!-- Lista de contactos -->
+            <div id="contacts-list" class="space-y-6">
+                <p class="text-center text-gray-500">Cargando contactos...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="contactos.js"></script>
+    <script>
+        let contacts = {};
+
+        const deptoInput = document.getElementById('depto');
+        const nombreInput = document.getElementById('nombre');
+        const numeroInput = document.getElementById('numero');
+        const contactForm = document.getElementById('contact-form');
+        const formTitle = document.getElementById('form-title');
+        const editIndexInput = document.getElementById('edit-index');
+        const editDeptoInput = document.getElementById('edit-depto');
+        const cancelEditBtn = document.getElementById('cancel-edit-btn');
+        const downloadBtn = document.getElementById('download-btn');
+
+        function deepCopy(obj) {
+            return JSON.parse(JSON.stringify(obj));
+        }
+
+        function renderContacts() {
+            const listContainer = document.getElementById('contacts-list');
+            listContainer.innerHTML = '';
+            const sortedDepts = Object.keys(contacts).sort((a, b) => a.localeCompare(b, undefined, {numeric: true, sensitivity: 'base'}));
+
+            if (sortedDepts.length === 0) {
+                listContainer.innerHTML = '<p class="text-center text-gray-500 py-8">No hay contactos guardados.</p>';
+                return;
+            }
+
+            sortedDepts.forEach(depto => {
+                const deptoSection = document.createElement('div');
+                deptoSection.className = 'p-4 border border-gray-200 rounded-lg';
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'flex justify-between items-center mb-3';
+                const deptoTitle = document.createElement('h3');
+                deptoTitle.className = 'text-xl font-bold text-gray-800';
+                deptoTitle.textContent = `Departamento ${depto}`;
+                headerDiv.appendChild(deptoTitle);
+                const addButton = document.createElement('button');
+                addButton.className = 'add-contact-btn text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 px-3 py-1 rounded-md transition';
+                addButton.textContent = 'Agregar Contacto';
+                addButton.dataset.depto = depto;
+                headerDiv.appendChild(addButton);
+                deptoSection.appendChild(headerDiv);
+                const contactsUL = document.createElement('ul');
+                contactsUL.className = 'space-y-2';
+                contacts[depto].forEach((contact, index) => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center justify-between p-2 rounded-md hover:bg-gray-50';
+                    li.innerHTML = `<div><p class="font-semibold text-gray-700">${contact.nombre}</p><p class="text-sm text-gray-500">${contact.numero}</p></div><div class="flex space-x-2"><button class="edit-btn text-sm text-blue-600 hover:text-blue-800" data-depto="${depto}" data-index="${index}">Editar</button><button class="delete-btn text-sm text-red-600 hover:text-red-800" data-depto="${depto}" data-index="${index}">Eliminar</button></div>`;
+                    contactsUL.appendChild(li);
+                });
+                deptoSection.appendChild(contactsUL);
+                listContainer.appendChild(deptoSection);
+            });
+
+            document.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', handleEdit));
+            document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', handleDelete));
+            document.querySelectorAll('.add-contact-btn').forEach(btn => btn.addEventListener('click', handleAddContactToDepto));
+        }
+        
+        function resetForm() {
+            contactForm.reset();
+            formTitle.textContent = 'Agregar Nuevo Contacto';
+            editIndexInput.value = '';
+            editDeptoInput.value = '';
+            deptoInput.disabled = false;
+            cancelEditBtn.classList.add('hidden');
+        }
+        
+        function handleAddContactToDepto(e) {
+            const depto = e.target.dataset.depto;
+            resetForm(); 
+            deptoInput.value = depto;
+            deptoInput.disabled = true;
+            formTitle.textContent = `Agregando contacto a ${depto}`;
+            cancelEditBtn.classList.remove('hidden');
+            window.scrollTo(0, 0);
+            nombreInput.focus();
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const depto = deptoInput.value.trim().toUpperCase();
+            const nombre = nombreInput.value.trim();
+            const numero = numeroInput.value.trim();
+            if (!depto || !nombre || !numero) { alert('Todos los campos son obligatorios.'); return; }
+            const newContact = { nombre, numero };
+            const editingIndex = editIndexInput.value;
+            const editingDepto = editDeptoInput.value;
+            if (editingIndex !== '') {
+                contacts[editingDepto][editingIndex] = newContact;
+            } else {
+                if (!contacts[depto]) { contacts[depto] = []; }
+                contacts[depto].push(newContact);
+            }
+            renderContacts();
+            resetForm();
+        }
+
+        function handleEdit(e) {
+            const depto = e.target.dataset.depto;
+            const index = e.target.dataset.index;
+            const contact = contacts[depto][index];
+            deptoInput.value = depto;
+            deptoInput.disabled = true;
+            nombreInput.value = contact.nombre;
+            numeroInput.value = contact.numero;
+            editDeptoInput.value = depto;
+            editIndexInput.value = index;
+            formTitle.textContent = `Editando contacto en ${depto}`;
+            cancelEditBtn.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function handleDelete(e) {
+            const depto = e.target.dataset.depto;
+            const index = e.target.dataset.index;
+            if (confirm(`¿Estás seguro de que quieres eliminar este contacto de ${depto}?`)) {
+                contacts[depto].splice(index, 1);
+                if (contacts[depto].length === 0) { delete contacts[depto]; }
+                renderContacts();
+            }
+        }
+
+        function downloadContactsFile() {
+            const fileContent = 'const buildingContactsData = ' + JSON.stringify(contacts, null, 4) + ';';
+            const blob = new Blob([fileContent], { type: 'application/javascript' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'contactos.js';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+            alert("¡Archivo 'contactos.js' descargado!\n\nAhora debes reemplazar el archivo antiguo en tu servidor con este nuevo.");
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof buildingContactsData !== 'undefined') {
+                contacts = deepCopy(buildingContactsData);
+                renderContacts();
+            } else {
+                document.getElementById('contacts-list').innerHTML = '<p class="text-center text-red-500 py-8">Error: No se pudo cargar `contactos.js`.</p>';
+            }
+            contactForm.addEventListener('submit', handleFormSubmit);
+            cancelEditBtn.addEventListener('click', resetForm);
+            downloadBtn.addEventListener('click', downloadContactsFile);
+        });
+
+    </script>
+</body>
+</html>
+
